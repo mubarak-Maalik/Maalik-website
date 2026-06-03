@@ -31,16 +31,24 @@ export default function HeroSection() {
 
   return (
     <section style={{ paddingTop: '100px', paddingBottom: '80px', position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 48px;
+          align-items: center;
+        }
+        @media (min-width: 768px) {
+          .hero-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+          .hero-text { order: ${lang === 'ar' ? 2 : 1}; }
+          .hero-dashboard { order: ${lang === 'ar' ? 1 : 2}; }
+        }
+      `}</style>
       <div className="container">
-        {/* Always: text first on mobile, side by side on desktop */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gap: '48px',
-          alignItems: 'center',
-        }}>
-          {/* Text content — always first in DOM so it's on top on mobile */}
-          <div>
+        <div className="hero-grid">
+          <div className="hero-text">
             <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: '#1a1a2e', lineHeight: 1.1, marginBottom: '24px' }}>
               {t("hero.title")}
             </h1>
@@ -71,20 +79,11 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Dashboard */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="hero-dashboard" style={{ display: 'flex', justifyContent: 'center' }}>
             <MockDashboard />
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (min-width: 768px) {
-          .hero-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
