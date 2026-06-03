@@ -11,7 +11,6 @@ export default function HeroSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-
     setLoading(true);
     try {
       await fetch('/api/subscribe', {
@@ -33,8 +32,15 @@ export default function HeroSection() {
   return (
     <section style={{ paddingTop: '100px', paddingBottom: '80px', position: 'relative', overflow: 'hidden' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px', alignItems: 'center' }}>
-          <div style={{ order: lang === 'ar' ? 2 : 1 }}>
+        {/* Always: text first on mobile, side by side on desktop */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: '48px',
+          alignItems: 'center',
+        }}>
+          {/* Text content — always first in DOM so it's on top on mobile */}
+          <div>
             <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: '#1a1a2e', lineHeight: 1.1, marginBottom: '24px' }}>
               {t("hero.title")}
             </h1>
@@ -42,7 +48,13 @@ export default function HeroSection() {
               {t("hero.subtitle")}
             </p>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', maxWidth: '460px', marginBottom: '16px' }}>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("hero.email_placeholder")} required disabled={loading}
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("hero.email_placeholder")}
+                required
+                disabled={loading}
                 style={{ flex: '1', minWidth: '200px', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e2e2dc', fontSize: '14px', outline: 'none', color: '#1a1a2e', background: 'white' }}
               />
               <button type="submit" disabled={loading}
@@ -58,11 +70,21 @@ export default function HeroSection() {
               <span style={{ fontSize: '12px' }}>{t("hero.security")}</span>
             </div>
           </div>
-          <div style={{ order: lang === 'ar' ? 1 : 2, display: 'flex', justifyContent: 'center' }}>
+
+          {/* Dashboard */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <MockDashboard />
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .hero-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
