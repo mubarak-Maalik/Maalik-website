@@ -38,20 +38,46 @@ export default function FeaturesSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section style={{ padding: '80px 0' }}>
-      <div className="container">
-        <div ref={ref} style={{ textAlign: 'center', marginBottom: '60px', opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease' }}>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 800, color: '#1a1a2e' }}>{t("features.title")}</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '60px', alignItems: 'center' }}>
-          <div style={{ order: lang === 'ar' ? 2 : 1 }}>
-            {features.map((f, i) => <FeatureCard key={f.titleKey} feature={f} index={i} />)}
+    <>
+      <style>{`
+        .features-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 60px;
+          align-items: center;
+        }
+        .features-illustration {
+          display: flex;
+          justify-content: center;
+          overflow-x: auto;
+          width: 100%;
+        }
+        @media (min-width: 900px) {
+          .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+          }
+          .features-list { order: ${lang === 'ar' ? 2 : 1}; }
+          .features-illustration { order: ${lang === 'ar' ? 1 : 2}; }
+        }
+      `}</style>
+      <section style={{ padding: '80px 0' }}>
+        <div className="container">
+          <div ref={ref} style={{ textAlign: 'center', marginBottom: '60px', opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease' }}>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 800, color: '#1a1a2e' }}>{t("features.title")}</h2>
           </div>
-          <div className="phone-illustration" style={{ order: lang === 'ar' ? 1 : 2, justifyContent: 'center' }}>
-            <PhoneIllustration />
+          <div className="features-grid">
+            <div className="features-list">
+              {features.map((f, i) => <FeatureCard key={f.titleKey} feature={f} index={i} />)}
+            </div>
+            <div className="features-illustration">
+              <PhoneIllustration />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
