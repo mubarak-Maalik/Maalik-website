@@ -49,14 +49,14 @@ export default function FeaturesSection() {
         .features-illustration {
           display: flex;
           justify-content: center;
-          overflow-x: auto;
-          width: 100%;
+          padding: 40px 50px;
+          overflow: visible;
         }
         @media (min-width: 900px) {
           .features-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 40px;
             align-items: center;
           }
           .features-list { order: ${lang === 'ar' ? 2 : 1}; }
